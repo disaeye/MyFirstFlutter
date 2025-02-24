@@ -14,3 +14,14 @@ jobs:
             -   run: flutter pub get
             -   run: flutter test
             -   run: flutter build web
+            - run: |
+                cd build/web
+                git init
+                git config --global user.email disaeye@gmail.com
+                git config --global user.name Disaeye
+                git status
+                git remote add origin https://${{secrets.COMMITSECRET}}@github.com/disaeye/MyFirstFlutter.git
+                git checkout -b showcase
+                git add --all
+                git commit -m "update"
+                git push origin showcase -f
