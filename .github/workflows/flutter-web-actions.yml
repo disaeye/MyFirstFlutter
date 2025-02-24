@@ -2,7 +2,10 @@ name: Flutter Web Actions
 run-name: ${{ github.actor }} is build flutter web app on Google Actions to Google Pages.
 on: [push]
 jobs:
-    Explore-GitHub-Actions:
+    build:
+        name: Build Web
+        env:
+            my_secret: ${{secrets.COMMITSECRET}}
         runs-on: ubuntu-latest
         steps:
             -   name: Clone repository
@@ -11,9 +14,11 @@ jobs:
                 uses: subosito/flutter-action@v2
                 with:
                     channel: stable
+            -   run: flutter config --enable-web
             -   run: flutter pub get
-            -   run: flutter test
-            -   run: flutter build web
+            -   run: flutter channel master
+            -   run: flutter upgrade
+            -   run: flutter build web --release
             - run: |
                 cd build/web
                 git init
